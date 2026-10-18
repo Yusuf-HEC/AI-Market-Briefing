@@ -243,10 +243,15 @@ def envoyer(sujet, texte):
 def main():
     # GitHub lance à deux heures UTC pour couvrir été/hiver : on ne garde que le run de 7 h à Paris.
     if os.environ.get('GITHUB_EVENT_NAME') == 'schedule':
-        h = datetime.now(ZoneInfo('Europe/Paris')).hour
-        if h != int(os.environ.get('HEURE_PARIS', '7')):
-            print(f'Il est {h} h à Paris : ce n\'est pas le bon créneau, arrêt volontaire.')
+        now = datetime.now(ZoneInfo('Europe/Paris'))
+        if now.hour < 7:
+            print(f'Il est {now.hour} h à Paris : trop tôt, arrêt volontaire.')
             return
+        if os.path.exists(f'briefings/briefing_{now.date()}.md'):
+            print('Briefing du jour déjà produit, arrêt volontaire.')
+            return
+
+    cle = os.environ.get('OPENROUTER_API_KEY')
 
     cle = os.environ.get('OPENROUTER_API_KEY')
     if not cle:
