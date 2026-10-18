@@ -1,24 +1,4 @@
-"""Évaluation du briefing de marché, sans modifier briefing.py.
-
-Place ce fichier à côté de briefing.py, puis lance les commandes dans l'ordre :
-
-  python evaluer.py collecter                      # sauvegarde les articles du jour dans evaluation/articles_DATE.json
-  python evaluer.py rejouer                        # génère un briefing depuis ces articles + contrôles automatiques
-  python evaluer.py rejouer --juge                 # idem + vérification des faits par un second appel au modèle
-  python evaluer.py rejouer --model autre/modele   # mêmes articles, autre modèle : comparaison équitable
-  python evaluer.py etiqueter                      # crée un CSV d'articles à étiqueter à la main
-  python evaluer.py routage                        # précision du routage par mots-clés, depuis le CSV rempli
-
-Les commandes « rejouer » ont besoin de la variable d'environnement OPENROUTER_API_KEY.
-Chaque « rejouer » ajoute une ligne à evaluation/resultats.csv : c'est ton tableau de bord.
-
-Limites à connaître :
-- Les contrôles de chiffres sont une heuristique : un arrondi (4,2 au lieu de 4,25) sera signalé.
-  La liste des chiffres suspects est faite pour être vérifiée à la main.
-- Le juge est un modèle : il peut se tromper. Relis une vingtaine de ses verdicts avant de lui faire confiance.
-- Le routage est mesuré en précision seulement (parmi les articles rangés dans une rubrique, combien y
-  avaient leur place). Le rappel exigerait de garder aussi les articles écartés, ce que collecter() ne fait pas.
-"""
+"""Évaluation du briefing de marché"""
 import argparse
 import csv
 import glob
